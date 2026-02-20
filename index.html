@@ -15,22 +15,8 @@
     })(window,document,'script','dataLayer','GTM-WRJZTZP');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Meta Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    
-      fbq('init', '924538425045171'); // Substitua pelo seu Pixel ID
-      fbq('track', 'PageView'); // Evento de visualização de página
-    </script>
-    <!-- End Meta Pixel Code -->
+    <!-- Meta Pixel: Gerenciado exclusivamente via GTM (GTM-WRJZTZP).
+         Não inicializar o pixel diretamente aqui evita disparo duplicado de eventos. -->
     
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://api.fontshare.com">
@@ -330,30 +316,25 @@
                     // APENAS DISPARO PARA O GTM.
                     // O GTM deve ficar encarregado de disparar a tag do Meta e demais conversões
                     // utilizando o gatilho 'generate_lead' para evitar eventos duplicados.
+                    // 'page_type: lp' permite criar exceção no GTM para não disparar
+                    // a tag [DK] Meta Pixel - Generate Lead (sem LPs) nesta página.
                     try {
                         if (window.dataLayer) {
                             window.dataLayer.push({
                                 'event': 'generate_lead',
                                 'form_id': 'live_especial_expert',
-                                'leadSource': 'lp-live-expert'
+                                'leadSource': 'lp-live-expert',
+                                'page_type': 'lp'
                             });
                         }
                     } catch (e) { console.error('Erro rastreamento:', e); }
 
                 }).catch((error) => {
-                    console.error('Erro ao enviar:', error);
+                    // Nota: com mode:'no-cors', erros de rede caem aqui.
+                    // O generate_lead NÃO é disparado novamente para evitar duplicação.
+                    console.error('Erro ao enviar formulário:', error);
                     setIsLoading(false);
-                    setIsSubmitted(true); 
-
-                    try {
-                        if (window.dataLayer) {
-                            window.dataLayer.push({
-                                'event': 'generate_lead',
-                                'form_id': 'live_especial_expert',
-                                'leadSource': 'lp-live-expert'
-                            });
-                        }
-                    } catch (e) {}
+                    setIsSubmitted(true);
                 });
             };
 
