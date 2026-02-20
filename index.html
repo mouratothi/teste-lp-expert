@@ -327,6 +327,9 @@
                     setIsLoading(false);
                     setIsSubmitted(true); 
 
+                    // APENAS DISPARO PARA O GTM.
+                    // O GTM deve ficar encarregado de disparar a tag do Meta e demais conversões
+                    // utilizando o gatilho 'generate_lead' para evitar eventos duplicados.
                     try {
                         if (window.dataLayer) {
                             window.dataLayer.push({
@@ -334,12 +337,6 @@
                                 'form_id': 'live_especial_expert',
                                 'leadSource': 'lp-live-expert'
                             });
-                        }
-                        if (typeof window.fbq === 'function') {
-                            window.fbq('track', 'Lead', { content_name: 'Inscricao_Live_Expert' });
-                        }
-                        if (typeof window.gtag === 'function') {
-                            window.gtag('event', 'generate_lead', { 'event_category': 'form', 'event_label': 'Inscricao_Live_Expert' });
                         }
                     } catch (e) { console.error('Erro rastreamento:', e); }
 
@@ -349,8 +346,13 @@
                     setIsSubmitted(true); 
 
                     try {
-                        if (window.dataLayer) window.dataLayer.push({'event': 'generate_lead', 'form_id': 'live_especial_expert', 'leadSource': 'lp-live-expert'});
-                        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+                        if (window.dataLayer) {
+                            window.dataLayer.push({
+                                'event': 'generate_lead',
+                                'form_id': 'live_especial_expert',
+                                'leadSource': 'lp-live-expert'
+                            });
+                        }
                     } catch (e) {}
                 });
             };
@@ -568,7 +570,7 @@
             );
         };
 
-        // --- VIDEO SECTION EXATAMENTE COMO SOLICITADO ---
+        // --- VIDEO SECTION ---
         const VideoSection = () => {
             const videoId = "abFJ6LGqBlE"; 
             
@@ -968,7 +970,7 @@
             );
         };
 
-        // --- FAQ SECTION EXATAMENTE COMO SOLICITADO (SEM CTAS ORIGINAIS NO FINAL) ---
+        // --- FAQ SECTION EXATAMENTE COMO SOLICITADO ---
         const FAQSection = () => {
             const faqs = [
                 {
